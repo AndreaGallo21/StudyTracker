@@ -15,17 +15,22 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Acción al presionar el botón de Ingresar
         binding.btnLogin.setOnClickListener {
-            val user = binding.etUser.text.toString()
-            val pass = binding.etPass.text.toString()
+            // 🔥 El .trim() es MAGIA: borra los espacios invisibles al principio o al final
+            val user = binding.etUser.text.toString().trim()
+            val pass = binding.etPass.text.toString().trim()
 
-            // Requisito del profe: Validar sin Base de Datos
             if (user == "admin" && pass == "123") {
+                // Viajamos al Dashboard (MainActivity)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
-                finish() // Cierra el login para no poder retroceder
+
+                // 🔥 MATAMOS el Login para que no puedan regresar con el botón de "Atrás"
+                finish()
             } else {
-                Toast.makeText(this, "Datos incorrectos papu :v", Toast.LENGTH_SHORT).show()
+                // 🔥 ESTE ES EL ESPÍA: Te dirá EXACTAMENTE qué leyó el sistema entre los corchetes
+                Toast.makeText(this, "Error. Leyó: [$user] y [$pass]", Toast.LENGTH_LONG).show()
             }
         }
     }
