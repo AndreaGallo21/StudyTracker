@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyTracker">
         <activity
+            android:name=".ui.DetallesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.FormularioActivity"
             android:exported="false" />
         <activity

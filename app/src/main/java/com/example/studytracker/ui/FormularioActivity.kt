@@ -16,15 +16,19 @@ class FormularioActivity : AppCompatActivity() {
 
         // Acción del botón Guardar
         binding.btnSaveTask.setOnClickListener {
+            // El .trim() quita espacios en blanco accidentales
             val nombre = binding.etTaskName.text.toString().trim()
             val curso = binding.etTaskSubject.text.toString().trim()
+            val fecha = binding.etTaskDate.text.toString().trim()
 
-            if (nombre.isNotEmpty() && curso.isNotEmpty()) {
-                Toast.makeText(this, "¡Tarea '$nombre' guardada!", Toast.LENGTH_SHORT).show()
-                // El finish() cierra el formulario y te devuelve suavemente al Dashboard
+            // Validamos que NINGÚN campo esté vacío
+            if (nombre.isNotEmpty() && curso.isNotEmpty() && fecha.isNotEmpty()) {
+                // Mensaje formal de éxito
+                Toast.makeText(this, "Tarea guardada exitosamente.", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                Toast.makeText(this, "Por favor llena los datos pe :v", Toast.LENGTH_SHORT).show()
+                // 🔥 AQUÍ ESTÁ EL ARREGLO: Mensaje formal de error 🔥
+                Toast.makeText(this, "Error: Todos los campos son obligatorios.", Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.example.studytracker.ui
 
-import android.content.Intent // Te agregué el import para que quede más limpio abajo
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,20 +17,24 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-        // Mostrar la vista
         setContentView(binding.root)
 
-        // Respetar los bordes de la pantalla (Cura 1 aplicada)
+        // Configuración de márgenes del sistema (Window Insets)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // ¡Magia del botón! Nos lleva al formulario
+        // Navegación hacia la pantalla de creación de tarea
         binding.fabAddTask.setOnClickListener {
             val intent = Intent(this, FormularioActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Navegación temporal hacia la vista de detalles
+        binding.tvDashboardTitle.setOnClickListener {
+            val intent = Intent(this, DetallesActivity::class.java)
             startActivity(intent)
         }
     }
