@@ -12,13 +12,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TareaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertar(tarea: Tarea)
+    fun insertar(tarea: Tarea)
 
     @Update
-    suspend fun actualizar(tarea: Tarea)
+    fun actualizar(tarea: Tarea)
 
     @Delete
-    suspend fun eliminar(tarea: Tarea)
+    fun eliminar(tarea: Tarea)
 
     @Query("SELECT * FROM tareas ORDER BY id DESC")
     fun obtenerTodasLasTareas(): Flow<List<Tarea>>

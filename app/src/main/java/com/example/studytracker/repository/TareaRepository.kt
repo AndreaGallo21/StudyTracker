@@ -8,7 +8,7 @@ class TareaRepository(private val tareaDao: TareaDao) {
 
     val todasLasTareas: Flow<List<Tarea>> = tareaDao.obtenerTodasLasTareas()
 
-    suspend fun insertar(tarea: Tarea) {
+    fun insertar(tarea: Tarea) {
         tareaDao.insertar(tarea)
     }
 }

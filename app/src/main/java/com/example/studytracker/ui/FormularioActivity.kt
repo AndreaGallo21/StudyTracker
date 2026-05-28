@@ -1,64 +1,90 @@
 package com.example.studytracker.ui
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.studytracker.R
-import com.example.studytracker.db.AppDatabase
-import com.example.studytracker.entity.Tarea
-import com.example.studytracker.repository.TareaRepository
-import com.example.studytracker.viewmodel.TareaViewModel
-import com.example.studytracker.viewmodel.TareaViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Calendar
 
 class FormularioActivity : AppCompatActivity() {
 
-    // 1. Preparamos la Base de Datos, el Repositorio y el ViewModel
-    private val database by lazy { AppDatabase.getDatabase(this) }
-    private val repository by lazy { TareaRepository(database.tareaDao()) }
-    private val viewModel: TareaViewModel by viewModels {
-        TareaViewModelFactory(repository)
-    }
+    // 1. Declaramos las herramientas de Firebase
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario)
 
-        // 2. Conectamos las variables de Kotlin con las cajitas de tu XML
+        // 2. Inicializamos Firebase
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+
         val etTaskName = findViewById<EditText>(R.id.etTaskName)
         val etTaskSubject = findViewById<EditText>(R.id.etTaskSubject)
         val etTaskDate = findViewById<EditText>(R.id.etTaskDate)
+        val etTaskDescription = findViewById<EditText>(R.id.etTaskDescription)
         val btnSaveTask = findViewById<Button>(R.id.btnSaveTask)
 
-        // 3. Le damos vida al botón "Guardar Tarea"
+        // Calendario (Este código está perfecto, lo dejamos igual) ---
+        etTaskDate.setOnClickListener {
+            val calendario = Calendar.getInstance()
+            val anio = calendario.get(Calendar.YEAR)
+            val mes = calendario.get(Calendar.MONTH)
+            val dia = calendario.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(this, { _, yearSeleccionado, monthSeleccionado, daySeleccionado ->
+                val fechaFormateada = "$daySeleccionado/${monthSeleccionado + 1}/$yearSeleccionado"
+                etTaskDate.setText(fechaFormateada)
+            }, anio, mes, dia)
+
+            datePickerDialog.show()
+        }
+
+        // --- LÓGICA DE GUARDAR EN FIRESTORE ---
         btnSaveTask.setOnClickListener {
             val nombre = etTaskName.text.toString().trim()
             val curso = etTaskSubject.text.toString().trim()
             val fecha = etTaskDate.text.toString().trim()
+            val descripcion = etTaskDescription.text.toString().trim()
 
-            // Validamos que el pata no deje nada vacío
             if (nombre.isEmpty() || curso.isEmpty() || fecha.isEmpty()) {
-                Toast.makeText(this, "¡Habla causa! Llena todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Llena los campos obligatorios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // 4. Armamos la tarea (el ID se genera solito gracias a Room)
-            val nuevaTarea = Tarea(
-                nombre = nombre,
-                curso = curso,
-                fecha = fecha
+            // Verificamos quién es el usuario logeado
+            val currentUser = auth.currentUser
+            if (currentUser == null) {
+                Toast.makeText(this, "Error: No hay usuario activo", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // 3. Empaquetamos los datos como Firestore los pide (HashMap)
+            val tareaMap = hashMapOf(
+                "userId" to currentUser.uid, // Guardamos el ID del creador
+                "nombre" to nombre,
+                "curso" to curso,
+                "fecha" to fecha,
+                "descripcion" to descripcion,
+                "completada" to false // Estado inicial
             )
 
-            // 5. ¡El momento de la verdad! Mandamos a guardar usando el ViewModel
-            viewModel.insertar(nuevaTarea)
-
-            // Avisamos que todo salió joya
-            Toast.makeText(this, "¡Tarea guardada como un campeón!", Toast.LENGTH_SHORT).show()
-
-            // Cerramos la pantalla del formulario
-            finish()
+            // 4. Lo mandamos a la colección "tareas"
+            db.collection("tareas")
+                .add(tareaMap)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "¡Guardado en la NUBE con éxito!", Toast.LENGTH_SHORT).show()
+                    finish() // Regresamos a la pantalla anterior
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_LONG).show()
+                }
         }
     }
 }

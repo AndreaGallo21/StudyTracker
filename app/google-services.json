@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "84194850430",
+    "project_id": "studytracker-a8a42535",
+    "storage_bucket": "studytracker-a8a42535.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84194850430:android:7df511b3d1836d09210a2f",
+        "android_client_info": {
+          "package_name": "com.example.studytracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1PdfL74PTPGmSep_BNQ5JMtH20uzzNLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

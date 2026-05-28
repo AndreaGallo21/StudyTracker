@@ -22,7 +22,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "studytracker_db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration() // <--- AGREGA ESTA LÍNEA
+                    .build()
                 INSTANCE = instance
                 instance
             }

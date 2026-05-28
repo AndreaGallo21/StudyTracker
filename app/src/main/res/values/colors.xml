@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="editor_bg">#1E1E1E</color>
+    <color name="panel_bg">#252526</color>
+    <color name="border_color">#3E3E42</color>
+    <color name="syntax_green">#4EC9B0</color>
+    <color name="syntax_blue">#569CD6</color>
 </resources>

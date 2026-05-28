@@ -1,66 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0F172A"
-    android:padding="24dp">
+    android:fillViewport="true"
+    android:background="#121212"> <!-- FONDO OSCURO PRO -->
 
-    <TextView
-        android:id="@+id/tvFormTitle"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Nueva Tarea"
-        android:textColor="#38BDF8"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="24dp">
 
-    <EditText
-        android:id="@+id/etTaskName"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="#334155"
-        android:hint="Nombre de la tarea"
-        android:textColor="#F8FAFC"
-        android:textColorHint="#94A3B8"
-        app:layout_constraintTop_toBottomOf="@id/tvFormTitle" />
+        <TextView
+            android:id="@+id/tvFormTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Nueva Tarea"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etTaskSubject"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#334155"
-        android:hint="Curso o Materia"
-        android:textColor="#F8FAFC"
-        android:textColorHint="#94A3B8"
-        app:layout_constraintTop_toBottomOf="@id/etTaskName" />
+        <!-- Caja: Nombre -->
+        <EditText
+            android:id="@+id/etTaskName"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="32dp"
+            android:background="#1E1E1E"
+            android:paddingHorizontal="20dp"
+            android:hint="Nombre de la actividad"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#808080"
+            app:layout_constraintTop_toBottomOf="@id/tvFormTitle" />
 
-    <EditText
-        android:id="@+id/etTaskDate"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#334155"
-        android:hint="Fecha de entrega (ej. Mañana)"
-        android:textColor="#F8FAFC"
-        android:textColorHint="#94A3B8"
-        app:layout_constraintTop_toBottomOf="@id/etTaskSubject" />
+        <!-- Caja: Curso -->
+        <EditText
+            android:id="@+id/etTaskSubject"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:background="#1E1E1E"
+            android:paddingHorizontal="20dp"
+            android:hint="Curso o Materia"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#808080"
+            app:layout_constraintTop_toBottomOf="@id/etTaskName" />
 
-    <Button
-        android:id="@+id/btnSaveTask"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="#38BDF8"
-        android:text="Guardar Tarea"
-        android:textColor="#0F172A"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/etTaskDate" />
+        <!-- Caja: Fecha (Con el ícono de calendario morado y teclado bloqueado) -->
+        <EditText
+            android:id="@+id/etTaskDate"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:background="#1E1E1E"
+            android:paddingHorizontal="20dp"
+            android:clickable="true"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+            android:drawableTint="#6C63FF"
+            android:hint="Fecha de entrega (Toca aquí)"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#808080"
+            app:layout_constraintTop_toBottomOf="@id/etTaskSubject" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Caja: Descripción -->
+        <EditText
+            android:id="@+id/etTaskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="16dp"
+            android:background="#1E1E1E"
+            android:padding="20dp"
+            android:gravity="top|start"
+            android:hint="Descripción detallada (Opcional)..."
+            android:textColor="#FFFFFF"
+            android:textColorHint="#808080"
+            app:layout_constraintTop_toBottomOf="@id/etTaskDate" />
+
+        <!-- Botón Guardar (Color morado de la app) -->
+        <Button
+            android:id="@+id/btnSaveTask"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="#6C63FF"
+            android:text="GUARDAR PENDIENTE"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            app:cornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@id/etTaskDescription"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
